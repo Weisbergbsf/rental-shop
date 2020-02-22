@@ -74,6 +74,10 @@ public class CustomerResource {
 
 		Optional<Customer> existingUserById = customerRepository.findById(customer.getId());
 		Optional<Customer> existingUserByEmail = customerRepository.findByEmailIgnoreCase(customer.getEmail());
+		
+		if (!existingUserById.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(false, "Customer not found!"));
+		}
 
 		if (existingUserByEmail.isPresent()) {
 			if (existingUserById.get().getEmail().equals(existingUserByEmail.get().getEmail())) {
