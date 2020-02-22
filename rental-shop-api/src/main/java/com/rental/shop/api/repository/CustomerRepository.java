@@ -13,6 +13,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	Page<Customer> findById(Integer id, Pageable pageable);
 	Page<Customer> findAll(Pageable pageable);
 
-	Optional<Customer> findById(Long id);
+	Optional<Customer> findById(Integer id);
 	Optional<Customer> findByEmailIgnoreCase(String email);
 }
