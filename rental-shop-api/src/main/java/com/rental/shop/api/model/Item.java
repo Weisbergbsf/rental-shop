@@ -12,9 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "items")
@@ -37,9 +40,14 @@ public class Item implements Serializable {
 	@Column(name = "quantity_stock")
 	private Integer quantityStock;
 
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "type_items_items", joinColumns = @JoinColumn(name = "items_id"), inverseJoinColumns = @JoinColumn(name = "type_items_id"))
 	private Set<TypeItem> typeItems = new HashSet<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "id.item")
+	private Set<ContractItem> items = new HashSet<>();
 
 	public Item() {
 	}
