@@ -1,6 +1,8 @@
 package com.rental.shop.api.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -8,12 +10,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.NaturalId;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "customers")
@@ -35,6 +40,10 @@ public class Customer {
 
 	@OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
 	private Address address;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "customer")
+	private List<Contract> contracts = new ArrayList<>();
 
 	public Customer() {
 	}
@@ -96,6 +105,10 @@ public class Customer {
 		this.address = address;
 	}
 
+	public List<Contract> getContracts() {
+		return contracts;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -120,6 +133,5 @@ public class Customer {
 			return false;
 		return true;
 	}
-
 
 }
