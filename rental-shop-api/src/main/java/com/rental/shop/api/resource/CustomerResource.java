@@ -46,7 +46,7 @@ public class CustomerResource {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> getCustomers(@PageableDefault(size = 20, page = 0) Pageable pageable) {
+	public ResponseEntity<?> getCustomers( Pageable pageable) {
 
 		Page<Customer> cust = customerRepository.findAll(pageable);
 
@@ -69,10 +69,10 @@ public class CustomerResource {
 		return ResponseEntity.ok().body(new ApiResponse(true, "Customer successfully registered!"));
 	}
 
-	@PutMapping()
-	public ResponseEntity<?> updateCustomer(@Valid @RequestBody Customer customer, HttpServletRequest request) {
-
-		Optional<Customer> existingUserById = customerRepository.findById(customer.getId());
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateCustomer(@PathVariable Integer id, @RequestBody Customer customer, HttpServletRequest request) {
+		System.err.println("id: "+id+" - "+customer.getId());
+		Optional<Customer> existingUserById = customerRepository.findById(id);
 		Optional<Customer> existingUserByEmail = customerRepository.findByEmailIgnoreCase(customer.getEmail());
 		
 		if (!existingUserById.isPresent()) {

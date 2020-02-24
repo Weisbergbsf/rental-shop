@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,6 +29,7 @@ public class Address implements Serializable {
 	private String numberAddress;
 	private String neighborhood;
 	private String city;
+	@Size(max = 2, message = "UF must be 2 characters")
 	private String uf;
 	@Column(name = "zip_code")
 	private String zipCode;
