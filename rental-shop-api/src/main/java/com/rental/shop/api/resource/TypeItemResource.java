@@ -65,10 +65,10 @@ public class TypeItemResource {
 		return ResponseEntity.ok().body(new ApiResponse(true, "Type Item successfully registered!"));
 	}
 
-	@PutMapping
-	public ResponseEntity<?> updateTypeItem(@Valid @RequestBody TypeItem typeItem, HttpServletRequest request) {
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateTypeItem(@PathVariable Integer id, @Valid @RequestBody TypeItem typeItem, HttpServletRequest request) {
 
-		Optional<TypeItem> existingById = typeItemRepository.findById(typeItem.getId());
+		Optional<TypeItem> existingById = typeItemRepository.findById(id);
 
 		Optional<TypeItem> existingByName = typeItemRepository.findByNameIgnoreCase(typeItem.getName());
 		

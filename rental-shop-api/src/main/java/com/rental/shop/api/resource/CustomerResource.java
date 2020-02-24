@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -71,7 +70,7 @@ public class CustomerResource {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateCustomer(@PathVariable Integer id, @RequestBody Customer customer, HttpServletRequest request) {
-		System.err.println("id: "+id+" - "+customer.getId());
+
 		Optional<Customer> existingUserById = customerRepository.findById(id);
 		Optional<Customer> existingUserByEmail = customerRepository.findByEmailIgnoreCase(customer.getEmail());
 		
