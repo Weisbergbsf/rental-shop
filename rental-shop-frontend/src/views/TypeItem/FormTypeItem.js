@@ -30,7 +30,7 @@ const FormTypeItem = props => {
   if (state) {
     typeItemUpdate = state;
   }
-  console.log("typeItemUpdate: ",typeItemUpdate)
+  console.log("typeItemUpdate: ", typeItemUpdate);
   useEffect(() => {
     if (message) {
       notification.success({
@@ -61,7 +61,6 @@ const FormTypeItem = props => {
               }}
               validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting, resetForm }) => {
-                console.log("values: ",values)
                 if (state) {
                   dispatch(updateTypeItem(typeItemUpdate.id, values));
                 } else {
@@ -109,8 +108,7 @@ const FormTypeItem = props => {
                         ghost
                         style={{ marginLeft: 8 }}
                         onClick={() => {
-                          console.log("...............")
-                          handleSubmit()
+                          handleSubmit();
                         }}
                       >
                         SALVAR

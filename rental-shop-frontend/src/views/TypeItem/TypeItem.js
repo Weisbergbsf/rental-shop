@@ -12,7 +12,7 @@ import CustomTable from "../../components/Table/CustomTable";
 import { Menu, Icon, Dropdown, Tooltip, Modal, notification } from "antd";
 
 import { columnsTable } from "./columnsTable";
-import { styles } from "./styles";
+import { styles } from "../global/styles";
 const { confirm } = Modal;
 
 const TypeItem = props => {
@@ -77,10 +77,10 @@ const TypeItem = props => {
     }
   ];
 
-  const showDeleteConfirm = (id, nameUser) => {
+  const showDeleteConfirm = (id, name) => {
     confirm({
       title: "Deletar este Type de Item?",
-      content: <strong>{nameUser}</strong>,
+      content: <strong>{name}</strong>,
       okText: "Sim",
       okType: "danger",
       cancelText: "Não",
@@ -92,7 +92,7 @@ const TypeItem = props => {
   };
 
   const subTitle = (
-    <Tooltip placement="bottom" title="Adicionar usuário">
+    <Tooltip placement="bottom" title="Adicionar Tipo de Item">
       <Icon
         type="plus-circle"
         style={styles.subTitle}

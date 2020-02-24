@@ -46,10 +46,23 @@ const fetchFail = errors => {
 };
 
 export const getTypeItems = (page, size) => dispatch => {
+  let response = {
+    offset: 0,
+    limit: 0,
+    totalElements: 0,
+    elements: []
+  };
   dispatch(fetchStart());
   axios
     .get(API_ROOT + `type-itens?page=${page}&size=${size}`)
     .then(res => {
+      response.offset = res.data.offset;
+      response.limit = res.data.limit;
+      response.totalElements = res.data.totalElements;
+      response.elements = res.data.elements.map(obj => {
+        obj["key"] = obj.id;
+        return obj;
+      });
       dispatch(getTypeItemsSuccess(res.data));
     })
     .catch(error => {
@@ -60,7 +73,7 @@ export const getTypeItems = (page, size) => dispatch => {
 export const createTypeItem = values => dispatch => {
   dispatch(fetchStart());
   const data = {
-    name: values.name,
+    name: values.name
   };
   axios
     .post(API_ROOT + "type-itens", data)
@@ -74,13 +87,10 @@ export const createTypeItem = values => dispatch => {
 };
 
 export const updateTypeItem = (typeItemId, values) => dispatch => {
-  console.log("typeItemId: ",typeItemId)
-  console.log("values: ",values)
   dispatch(fetchStart());
   const data = {
     id: typeItemId,
-    name: values.name,
-   
+    name: values.name
   };
   axios
     .put(API_ROOT + `type-itens/${typeItemId}`, data)

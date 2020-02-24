@@ -6,10 +6,11 @@ import Page404 from "../views/PagesInfo/Page404";
 import Dashboard from "../views/Dashboard";
 
 import TypeItem from "../views/TypeItem/TypeItem";
-import Item from "../views/Item";
+import Item from "../views/Item/Item";
 import Customers from "../views/Customer/Customers";
 import FormCustomer from "../views/Customer/FormCustomer";
 import FormTypeItem from "../views/TypeItem/FormTypeItem";
+import FormItem from "../views/Item/FormItem";
 
 const LayoutRentalShop = props => {
   return (
@@ -45,6 +46,14 @@ const LayoutRentalShop = props => {
 
         <Route path="/items" exact>
           <Item />
+        </Route>
+
+        <Route path="/item" exact>
+          <FormItem />
+        </Route>
+
+        <Route path="/edit-item/:id" exact>
+          <FormItem />
         </Route>
 
         <Route>

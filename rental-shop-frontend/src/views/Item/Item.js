@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getCustomers,
-  deleteCustomer,
+  getItems,
+  deleteItem,
   clearMessage
-} from "../../store/actions/customerAction";
+} from "../../store/actions/itemsAction";
 
 import Backdrop from "../../components/Backdrop/Backdrop";
 import CustomTable from "../../components/Table/CustomTable";
@@ -16,16 +15,17 @@ import { columnsTable } from "./columnsTable";
 import { styles } from "../global/styles";
 const { confirm } = Modal;
 
-const Customers = props => {
+const Item = props => {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
   const history = useHistory();
   const dispatch = useDispatch();
-  const loadUsers = useCallback(() => {
-    dispatch(getCustomers(page, pageSize));
+
+  const loadItems = useCallback(() => {
+    dispatch(getItems(page, pageSize));
   }, [dispatch, page, pageSize]);
 
-  const { customers, loading, message } = useSelector(state => state.customers);
+  const { items, loading, message } = useSelector(state => state.items);
   useEffect(() => {
     if (message) {
       notification.success({
@@ -34,43 +34,8 @@ const Customers = props => {
       });
       dispatch(clearMessage());
     }
-    loadUsers();
-  }, [dispatch, loadUsers, message, page, pageSize]);
-  
-  const showDeleteConfirm = (id, nameUser) => {
-    confirm({
-      title: "Deletar este Cliente?",
-      content: <strong>{nameUser}</strong>,
-      okText: "Sim",
-      okType: "danger",
-      cancelText: "Não",
-      onOk() {
-        dispatch(deleteCustomer(id));
-        setPage(page === 1 ? page : page - 1);
-      }
-    });
-  };
-  const handlePaginationChange = (page, pageSize) => {
-    setPage(page);
-  };
-
-  const onShowSizeChange = (current, pageSize) => {
-    setPageSize(pageSize);
-    setPage(1);
-  };
-
-  const subTitle = (
-    <Tooltip placement="bottom" title="Adicionar usuário">
-      <i
-        style={styles.subTitle}
-        className="fas fa-user-plus"
-        onClick={() => {
-          history.push("/customer");
-        }}
-      />
-    </Tooltip>
-  );
-
+    loadItems();
+  }, [dispatch, loadItems, message, page, pageSize]);
   const columns = [
     ...columnsTable,
     {
@@ -90,19 +55,14 @@ const Customers = props => {
                 key="1"
                 onClick={() => {
                   history.push({
-                    pathname: `/edit-customer/${record.id}`,
+                    pathname: `/edit-item/${record.id}`,
                     state: {
                       id: record.id,
                       name: record.name,
-                      birthDate: record.birthDate,
-                      email: record.email,
-                      phoneNumber: record.address.phoneNumber,
-                      street: record.address.street,
-                      numberAddress: record.address.numberAddress,
-                      neighborhood: record.address.neighborhood,
-                      city: record.address.city,
-                      uf: record.address.uf,
-                      zipCode: record.address.zipCode
+                      price: record.price,
+                      description: record.description,
+                      quantityStock: record.quantityStock,
+                      typeItems: record.typeItems
                     }
                   });
                 }}
@@ -121,17 +81,52 @@ const Customers = props => {
     }
   ];
 
+  const showDeleteConfirm = (id, name) => {
+    confirm({
+      title: "Deletar este Item?",
+      content: <strong>{name}</strong>,
+      okText: "Sim",
+      okType: "danger",
+      cancelText: "Não",
+      onOk() {
+        dispatch(deleteItem(id));
+        setPage(page === 1 ? page : page - 1);
+      }
+    });
+  };
+
+  const subTitle = (
+    <Tooltip placement="bottom" title="Adicionar Item">
+      <Icon
+        type="plus-circle"
+        style={styles.subTitle}
+        onClick={() => {
+          history.push("/item");
+        }}
+      />
+    </Tooltip>
+  );
+
+  const handlePaginationChange = (page, pageSize) => {
+    setPage(page);
+  };
+
+  const onShowSizeChange = (current, pageSize) => {
+    setPageSize(pageSize);
+    setPage(1);
+  };
+
   return (
     <div>
       <Backdrop show={loading} loading={true} />
-      {customers && (
+      {items && (
         <CustomTable
-          title="Clientes"
+          title="Typo de Items"
           subTitle={subTitle}
           columns={columns}
-          dataSource={customers.elements || []}
+          dataSource={items.elements || []}
           rowKey="id"
-          total={customers.totalElements}
+          total={10}
           pageSize={pageSize}
           defaultCurrent={page}
           onChange={handlePaginationChange}
@@ -142,4 +137,4 @@ const Customers = props => {
   );
 };
 
-export default Customers;
+export default Item;
