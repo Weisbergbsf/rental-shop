@@ -5,10 +5,11 @@ import MenuRentalShop from "./MenuRentalShop";
 import Page404 from "../views/PagesInfo/Page404";
 import Dashboard from "../views/Dashboard";
 
-import TypeItem from "../views/TypeItem";
+import TypeItem from "../views/TypeItem/TypeItem";
 import Item from "../views/Item";
 import Customers from "../views/Customer/Customers";
 import FormCustomer from "../views/Customer/FormCustomer";
+import FormTypeItem from "../views/TypeItem/FormTypeItem";
 
 const LayoutRentalShop = props => {
   return (
@@ -32,6 +33,14 @@ const LayoutRentalShop = props => {
 
         <Route path="/type-items" exact>
           <TypeItem />
+        </Route>
+
+        <Route path="/type-item" exact>
+          <FormTypeItem />
+        </Route>
+
+        <Route path="/edit-type-item/:id" exact>
+          <FormTypeItem />
         </Route>
 
         <Route path="/items" exact>

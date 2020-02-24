@@ -1,7 +1,7 @@
 import * as actionType from "../types";
 
 const initialState = {
-  customers: null,
+  typeItems: null,
   errors: null,
   message: null,
   loading: false
@@ -9,54 +9,54 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case actionType.SEND_CUSTOMER_START:
+    case actionType.SEND_TYPE_ITEM_START:
       return {
         ...state,
         loading: true
       };
-    case actionType.SEND_CUSTOMER_FAIL:
+    case actionType.SEND_TYPE_ITEM_FAIL:
       return {
         ...state,
         errors: action.errors,
         loading: false
       };
-    case actionType.FETCH_CUSTOMER_SUCCESS:
+    case actionType.FETCH_TYPE_ITEM_SUCCESS:
       return {
         ...state,
-        customers: action.customers,
+        typeItems: action.typeItems,
         errors: null,
         loading: false
       };
-    case actionType.CREATE_CUSTOMER_SUCCESS:
+    case actionType.CREATE_TYPE_ITEM_SUCCESS:
       return {
         ...state,
         loading: false,
         message: action.message
       };
-    case actionType.DELETE_CUSTOMER_SUCCESS:
+    case actionType.DELETE_TYPE_ITEM_SUCCESS:
       return {
         ...state,
         message: action.message,
         loading: false,
-        customers: {
-          ...state.customers,
-          elements: state.customers.elements.filter(
-            customer => customer.id !== action.customerId
+        typeItems: {
+          ...state.typeItems,
+          elements: state.typeItems.elements.filter(
+            typeItem => typeItem.id !== action.typeItemId
           )
         }
       };
-    case actionType.UPDATE_CUSTOMER_SUCCESS:
+    case actionType.UPDATE_TYPE_ITEM_SUCCESS:
       return {
         ...state,
         loading: false,
         message: action.message
       };
-    case actionType.CLEAR_MESSAGE_CUSTOMER:
+    case actionType.CLEAR_MESSAGE_TYPE_ITEM:
       return {
         ...state,
         message: null
       };
-    case actionType.CLEAR_ERRORS_CUSTOMER:
+    case actionType.CLEAR_ERRORS_TYPE_ITEM:
       return {
         ...state,
         errors: null

@@ -19,8 +19,18 @@ import {
 import Backdrop from "../../components/Backdrop/Backdrop";
 import { Formik, ErrorMessage } from "formik";
 import moment from "moment";
-import { validationSchema } from "./validationFields";
+import * as Yup from "yup";
 const dateFormat = "DD/MM/YYYY";
+
+// Schema for yup
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("O e-mail não é válido.")
+    .required("E-mail é obrigatório."),
+  name: Yup.string()
+    .required("O nome do obrigatório.")
+    .min(3, "O nome deve ter pelo menos 3 caracteres.")
+});
 
 const FormCustomer = props => {
   const history = useHistory();
