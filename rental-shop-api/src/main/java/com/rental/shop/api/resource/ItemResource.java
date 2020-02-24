@@ -59,8 +59,8 @@ public class ItemResource {
 		return ResponseEntity.ok().body(new ApiResponse(true, "Item successfully registered!"));
 	}
 
-	@PutMapping
-	public ResponseEntity<?> updateItem(@Valid @RequestBody Item typeItem, HttpServletRequest request) {
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateItem(@PathVariable Integer id, @Valid @RequestBody Item typeItem, HttpServletRequest request) {
 
 		itemRepository.save(typeItem);
 

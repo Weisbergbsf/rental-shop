@@ -40,7 +40,6 @@ public class Item implements Serializable {
 	@Column(name = "quantity_stock")
 	private Integer quantityStock;
 
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "type_items_items", joinColumns = @JoinColumn(name = "items_id"), inverseJoinColumns = @JoinColumn(name = "type_items_id"))
 	private Set<TypeItem> typeItems = new HashSet<>();
