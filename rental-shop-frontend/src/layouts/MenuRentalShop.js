@@ -20,14 +20,20 @@ const MenuRentalShop = () => {
         </Menu.Item>
 
         <Menu.Item key="3">
+          <Icon type="snippets" style={{ fontSize: 20 }} />
+          <span>Contrato de Itens</span>
+          <Link to="/contracts" />
+        </Menu.Item>
+
+        <Menu.Item key="4">
           <Icon type="tag" style={{ fontSize: 20 }} />
           <span>Tipo de item</span>
           <Link to="/type-items" />
         </Menu.Item>
 
-        <Menu.Item key="4">
+        <Menu.Item key="5">
           <Icon type="inbox" style={{ fontSize: 20 }} />
-          <span>Item</span>
+          <span>Itens</span>
           <Link to="/items" />
         </Menu.Item>
       </Menu>

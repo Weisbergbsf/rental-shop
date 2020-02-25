@@ -11,6 +11,8 @@ import Customers from "../views/Customer/Customers";
 import FormCustomer from "../views/Customer/FormCustomer";
 import FormTypeItem from "../views/TypeItem/FormTypeItem";
 import FormItem from "../views/Item/FormItem";
+import Contracts from "../views/Contracts/Contracts";
+import FormContract from "../views/Contracts/FormContract";
 
 const LayoutRentalShop = props => {
   return (
@@ -30,6 +32,18 @@ const LayoutRentalShop = props => {
 
         <Route path="/edit-customer/:id" exact>
           <FormCustomer />
+        </Route>
+
+        <Route path="/contracts" exact>
+          <Contracts />
+        </Route>
+
+        <Route path="/contract" exact>
+          <FormContract />
+        </Route>
+
+        <Route path="/edit-contract/:id" exact>
+          <FormContract />
         </Route>
 
         <Route path="/type-items" exact>
