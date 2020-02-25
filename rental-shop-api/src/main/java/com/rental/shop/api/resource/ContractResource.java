@@ -3,7 +3,6 @@ package com.rental.shop.api.resource;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -32,6 +31,15 @@ public class ContractResource {
 
 	@Autowired
 	private ContractService contractService;
+	
+	@GetMapping
+	public ResponseEntity<PagedResult<Contract>> getItems(Pageable pageable) {
+		Page<Contract> contracts = contractRepository.findAll(pageable);
+		PagedResult<Contract> result = new PagedResult<Contract>(contracts.getContent(), contracts.getTotalElements(),
+				contracts.getNumber(), contracts.getSize());
+
+		return ResponseEntity.ok().body(result);
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<PagedResult<Contract>> getItem(@PathVariable Integer id, Pageable pageable) {
@@ -44,13 +52,13 @@ public class ContractResource {
 
 	@PostMapping
 	public ResponseEntity<?> createContract(@RequestBody Contract contract) {
-
 		contract = contractService.save(contract);
 		return ResponseEntity.ok().body(contract);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<?> changeStatusContract(@PathVariable Integer id,	@DefaultValue(value = "statusContract") Integer statusContract) {
+	@PutMapping("/{id}/{statusContract}")
+	public ResponseEntity<?> changeStatusContract(@PathVariable Integer id,	@PathVariable Integer statusContract) {
+		
 		Optional<Contract> contract = contractRepository.findById(id);
 		if (!contract.isPresent()) {
 			return ResponseEntity.ok().body(new ApiResponse(false, "Contract not found!"));

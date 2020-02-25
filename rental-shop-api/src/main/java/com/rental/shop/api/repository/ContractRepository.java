@@ -9,4 +9,5 @@ import com.rental.shop.api.model.Contract;
 public interface ContractRepository extends JpaRepository<Contract, Integer> {
 
 	Page<Contract> findById(Integer id, Pageable pageable);
+
 }
