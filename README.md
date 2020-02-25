@@ -10,7 +10,7 @@
 - Criar a base de dados com o nome "rental_shop"
 - executar o comando "mvn spring-boot:run" na raiz do projeto - "rental-shop-api"
 
-#### 2) Frontend:
+#### 3) Frontend:
 - Acessar a pasta com o comando "cd rental-shop-frontend"
 - Instalar as dependências o comando "npm install"
 - E rodar a aplicação com comando "npm start"
