@@ -67,6 +67,9 @@ public class ContractItem implements Serializable {
 	}
 	
 	public double getSubTotal() {
+		if(quantity == null) {
+			setQuantity(1);
+		}
 		return price  * quantity;
 	}
 
