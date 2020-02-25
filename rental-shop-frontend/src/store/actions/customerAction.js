@@ -15,6 +15,13 @@ const getCustomerSuccess = customers => {
     customers: customers
   };
 };
+//To use on select.
+const getCustomersSelectSuccess = customersSelect => {
+  return {
+    type: actionType.FETCH_CUSTOMER_DTO_SUCCESS,
+    customersSelect: customersSelect
+  };
+};
 
 const createCustomerSuccess = message => {
   return {
@@ -51,6 +58,20 @@ export const getCustomers = (page, size) => dispatch => {
     .get(API_ROOT + `customers?page=${page}&size=${size}`)
     .then(res => {
       dispatch(getCustomerSuccess(res.data));
+    })
+    .catch(error => {
+      dispatch(fetchFail(error));
+    });
+};
+
+//TODO: create search option
+//To use on select.
+export const getCustomersSelect = () => dispatch => {
+  dispatch(fetchStart());
+  axios
+    .get(API_ROOT + `customers/list`)
+    .then(res => {
+      dispatch(getCustomersSelectSuccess(res.data));
     })
     .catch(error => {
       dispatch(fetchFail(error));

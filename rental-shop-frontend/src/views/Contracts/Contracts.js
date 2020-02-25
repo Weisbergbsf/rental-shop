@@ -1,31 +1,27 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getTypeItems,
-  deleteTypeItem,
-  clearMessage
-} from "../../store/actions/typeItemsAction";
+
+import { getContracts, clearMessage } from "../../store/actions/contractsAction";
 
 import Backdrop from "../../components/Backdrop/Backdrop";
 import CustomTable from "../../components/Table/CustomTable";
-import { Menu, Icon, Dropdown, Tooltip, Modal, notification } from "antd";
+import { Menu, Icon, Dropdown, Tooltip, notification } from "antd";
 
 import { columnsTable } from "./columnsTable";
 import { styles } from "../global/styles";
-const { confirm } = Modal;
 
-const TypeItem = props => {
+const Contracts = props => {
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(100);
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const loadTypeItems = useCallback(() => {
-    dispatch(getTypeItems(page, pageSize));
+  const loadContracts = useCallback(() => {
+    dispatch(getContracts(page, pageSize));
   }, [dispatch, page, pageSize]);
 
-  const { typeItems, loading, message } = useSelector(state => state.typeItems);
+  const { contracts, loading, message } = useSelector(state => state.contracts);
   useEffect(() => {
     if (message) {
       notification.success({
@@ -34,8 +30,8 @@ const TypeItem = props => {
       });
       dispatch(clearMessage());
     }
-    loadTypeItems();
-  }, [dispatch, loadTypeItems, message, page, pageSize]);
+    loadContracts();
+  }, [dispatch, loadContracts, message, page, pageSize]);
   const columns = [
     ...columnsTable,
     {
@@ -45,20 +41,16 @@ const TypeItem = props => {
           overlay={
             <Menu>
               <Menu.Item
-                key="0"
-                onClick={() => showDeleteConfirm(record.id, record.name)}
-              >
-                <Icon type="delete" style={{ color: "red" }} />
-                Deletar
-              </Menu.Item>
-              <Menu.Item
                 key="1"
                 onClick={() => {
                   history.push({
-                    pathname: `/edit-type-item/${record.id}`,
+                    pathname: `/edit-contract/${record.id}`,
                     state: {
                       id: record.id,
-                      name: record.name
+                      customerId: record.customer.id,
+                      typeContractId: record.contractStatus,
+                      items: record.items,
+                      dateEnd: record.dateEnd
                     }
                   });
                 }}
@@ -77,27 +69,14 @@ const TypeItem = props => {
     }
   ];
 
-  const showDeleteConfirm = (id, name) => {
-    confirm({
-      title: "Deletar este Type de Item?",
-      content: <strong>{name}</strong>,
-      okText: "Sim",
-      okType: "danger",
-      cancelText: "Não",
-      onOk() {
-        dispatch(deleteTypeItem(id));
-        setPage(page === 1 ? page : page - 1);
-      }
-    });
-  };
 
   const subTitle = (
-    <Tooltip placement="bottom" title="Adicionar Tipo de Item">
+    <Tooltip placement="bottom" title="Criar Contrato">
       <Icon
         type="plus-circle"
         style={styles.subTitle}
         onClick={() => {
-          history.push("/type-item");
+          history.push("/contract");
         }}
       />
     </Tooltip>
@@ -115,14 +94,14 @@ const TypeItem = props => {
   return (
     <div>
       <Backdrop show={loading} loading={true} />
-      {typeItems && (
+      {contracts && (
         <CustomTable
-          title="Tipo de Items"
+          title="Contratos"
           subTitle={subTitle}
           columns={columns}
-          dataSource={typeItems.elements || []}
+          dataSource={contracts.elements || []}
           rowKey="id"
-          total={typeItems.totalElements}
+          total={10}
           pageSize={pageSize}
           defaultCurrent={page}
           onChange={handlePaginationChange}
@@ -133,4 +112,4 @@ const TypeItem = props => {
   );
 };
 
-export default TypeItem;
+export default Contracts;

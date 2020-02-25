@@ -2,6 +2,7 @@ import * as actionType from "../types";
 
 const initialState = {
   items: null,
+  itemsSelect: null,
   errors: null,
   message: null,
   loading: false
@@ -24,6 +25,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         items: action.items,
+        errors: null,
+        loading: false
+      };
+    case actionType.FETCH_ITEM_DTO_SUCCESS:
+      return {
+        ...state,
+        itemsSelect: action.itemsSelect,
         errors: null,
         loading: false
       };

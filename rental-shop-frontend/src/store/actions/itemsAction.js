@@ -16,6 +16,15 @@ const getItemsSuccess = items => {
   };
 };
 
+//TODO: create search option
+//To use on select.
+const getItemsSelectSuccess = itemsSelect => {
+  return {
+    type: actionType.FETCH_ITEM_DTO_SUCCESS,
+    itemsSelect: itemsSelect
+  };
+};
+
 const createItemSuccess = message => {
   return {
     type: actionType.CREATE_ITEM_SUCCESS,
@@ -43,6 +52,24 @@ const fetchFail = errors => {
     type: actionType.SEND_ITEM_FAIL,
     errors: errors
   };
+};
+
+//TODO: create search option
+//To use on select.
+export const getItemsSelect = () => dispatch => {
+  dispatch(fetchStart());
+  axios
+    .get(API_ROOT + `items/list`)
+    .then(res => {
+      res.data.map(obj => {
+        obj["key"] = obj.id;
+        return obj;
+      });
+      dispatch(getItemsSelectSuccess(res.data));
+    })
+    .catch(error => {
+      dispatch(fetchFail(error));
+    });
 };
 
 export const getItems = (page, size) => dispatch => {

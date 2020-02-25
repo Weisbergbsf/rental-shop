@@ -121,7 +121,7 @@ const Item = props => {
       <Backdrop show={loading} loading={true} />
       {items && (
         <CustomTable
-          title="Typo de Items"
+          title="Items"
           subTitle={subTitle}
           columns={columns}
           dataSource={items.elements || []}
