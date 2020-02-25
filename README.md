@@ -7,6 +7,7 @@
 #### 2) Backend: 
 - Acessar a pasta com o comando "cd rental-shop-api"
 - Alterar a o usuário e senha do "application.properties" para se autenticar com o seu Banco de dados
+- Criar a base de dados com o nome "rental_shop"
 - executar o comando "mvn spring-boot:run" na raiz do projeto - "rental-shop-api"
 
 #### 2) Frontend:
