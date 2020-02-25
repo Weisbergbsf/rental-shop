@@ -2,7 +2,7 @@ package com.rental.shop.api.model.enums;
 
 public enum ContractStatus {
 
-	RESERVED(1), RENTED(2), RETURNED(3);
+	RESERVED(1), RENTED(2), RETURNED(3), CANCELED(4);
 
 	private int code;
 
