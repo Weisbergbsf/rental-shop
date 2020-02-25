@@ -1,6 +1,8 @@
 package com.rental.shop.api.resource;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rental.shop.api.model.Item;
+import com.rental.shop.api.model.dto.ItemDTO;
 import com.rental.shop.api.payload.ApiResponse;
 import com.rental.shop.api.repository.ItemRepository;
 import com.rental.shop.api.utils.PagedResult;
@@ -38,6 +41,16 @@ public class ItemResource {
 				items.getNumber(), items.getSize());
 
 		return ResponseEntity.ok().body(result);
+	}
+
+	// TODO: Create option to search
+	@GetMapping("/list")
+	public ResponseEntity<List<ItemDTO>> getItem() {
+		List<Item> items = itemRepository.findAll();
+
+		List<ItemDTO> itemsDto = items.stream().map(this::convertToDto).collect(Collectors.toList());
+
+		return ResponseEntity.ok().body(itemsDto);
 	}
 
 	@GetMapping
@@ -60,7 +73,8 @@ public class ItemResource {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateItem(@PathVariable Integer id, @Valid @RequestBody Item typeItem, HttpServletRequest request) {
+	public ResponseEntity<?> updateItem(@PathVariable Integer id, @Valid @RequestBody Item typeItem,
+			HttpServletRequest request) {
 
 		itemRepository.save(typeItem);
 
@@ -78,6 +92,10 @@ public class ItemResource {
 			itemRepository.delete(typeItem);
 		});
 		return ResponseEntity.ok().body(new ApiResponse(true, "Item successfully deleted!"));
+	}
+
+	private ItemDTO convertToDto(Item item) {
+		return new ItemDTO(item.getId(), item.getName());
 	}
 
 }
