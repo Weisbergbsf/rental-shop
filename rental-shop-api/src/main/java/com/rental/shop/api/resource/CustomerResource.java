@@ -1,6 +1,8 @@
 package com.rental.shop.api.resource;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rental.shop.api.model.Customer;
+import com.rental.shop.api.model.dto.CustomerDTO;
 import com.rental.shop.api.payload.ApiResponse;
 import com.rental.shop.api.repository.CustomerRepository;
 import com.rental.shop.api.resource.exception.ValidationError;
@@ -44,8 +47,18 @@ public class CustomerResource {
 		return ResponseEntity.ok().body(te);
 	}
 
+	// TODO: Create option to search
+	@GetMapping("/list")
+	public ResponseEntity<List<CustomerDTO>> getCustomers() {
+		List<Customer> customers = customerRepository.findAll();
+
+		List<CustomerDTO> customersDto = customers.stream().map(this::convertToDto).collect(Collectors.toList());
+
+		return ResponseEntity.ok().body(customersDto);
+	}
+
 	@GetMapping
-	public ResponseEntity<?> getCustomers( Pageable pageable) {
+	public ResponseEntity<?> getCustomers(Pageable pageable) {
 
 		Page<Customer> cust = customerRepository.findAll(pageable);
 
@@ -69,11 +82,12 @@ public class CustomerResource {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateCustomer(@PathVariable Integer id, @RequestBody Customer customer, HttpServletRequest request) {
+	public ResponseEntity<?> updateCustomer(@PathVariable Integer id, @RequestBody Customer customer,
+			HttpServletRequest request) {
 
 		Optional<Customer> existingUserById = customerRepository.findById(id);
 		Optional<Customer> existingUserByEmail = customerRepository.findByEmailIgnoreCase(customer.getEmail());
-		
+
 		if (!existingUserById.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(false, "Customer not found!"));
 		}
@@ -110,6 +124,10 @@ public class CustomerResource {
 				"Error validation", "Conflict", request.getRequestURI());
 		err.addError("email", "Email already exists.");
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
+	}
+
+	private CustomerDTO convertToDto(Customer customer) {
+		return new CustomerDTO(customer.getId(), customer.getName());
 	}
 
 }
